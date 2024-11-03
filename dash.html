@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Sophisticated Color Palette */
+            --color-background-primary: #0F1020;
+            --color-background-secondary: #1A1E2E;
+            --color-text-primary: #E4E6EB;
+            --color-text-secondary: #A0A5B1;
+            --color-accent-primary: #4A90E2;
+            --color-accent-secondary: #6A5ACD;
+            --color-accent-hover: #7B68EE;
+            
+            /* Refined Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            
+            /* Sophisticated Shadows and Transitions */
+            --shadow-elevation-1: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-elevation-2: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: var(--color-background-secondary);
+            padding: 2rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 1rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-menu a {
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(74, 144, 226, 0.1);
+            color: var(--color-accent-primary);
+        }
+
+        .sidebar-menu a i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--color-background-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-elevation-1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-elevation-2);
+        }
+
+        .stat-icon {
+            color: var(--color-accent-primary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .recent-projects {
+            background-color: var(--color-background-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-elevation-1);
+        }
+
+        .project-list {
+            list-style: none;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-smooth);
+        }
+
+        .project-item:hover {
+            background-color: rgba(74, 144, 226, 0.05);
+        }
+
+        .project-progress {
+            width: 100px;
+            height: 10px;
+            background-color: rgba(74, 144, 226, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .project-progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+            border-radius: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none; /* For this example. In a real app, you'd use a mobile menu */
+            }
+
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-project-diagram"></i>
+                <h2>ProConnect</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="main.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Mentors</a></li>
+                <li><a href="#"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h1>Project Dashboard</h1>
+                <div class="user-profile">
+                    <i class="fas fa-user-circle" style="font-size: 2rem; color: var(--color-accent-primary);"></i>
+                </div>
+            </div>
+
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Total Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Active Mentors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">Completed Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Ongoing Projects</div>
+                </div>
+            </div>
+
+            <!-- Recent Projects -->
+            <div class="recent-projects">
+                <h2 style="margin-bottom: 1.5rem;">Recent Projects</h2>
+                <ul class="project-list">
+                    <li class="project-item">
+                        <div>
+                            <strong>AI-Driven Recommendation System</strong>
+                            <p style="color: var(--color-text-secondary);">Dr. Priya Rajendran</p>
+                        </div>
+                        <div class="project-progress">
+                            <div class="project-progress-bar" style="width: 75%;"></div>
+                        </div>
+                    </li>
+                    <li class="project-item">
+                        <div>
+                            <strong>Smart Grid IoT Integration</strong>
+                            <p style="color: var(--color-text-secondary);">Prof. Senthil Kumar</p>
+                        </div>
+                        <div class="project-progress">
+                            <div class="project-progress-bar" style="width: 45%;"></div>
+                        </div>
+                    </li>
+                    <li class="project-item">
+                        <div>
+                            <strong>Robotic Automation Design</strong>
+                            <p style="color: var(--color-text-secondary);">Dr. Meera Sundaram</p>
+                        </div>
+                        <div class="project-progress">
+                            <div class="project-progress-bar" style="width: 90%;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

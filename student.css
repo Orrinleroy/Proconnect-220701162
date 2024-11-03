@@ -1,0 +1,117 @@
+@import 'main.css'; 
+
+/* Basic button styling */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    border: 2px solid transparent; /* Ensures buttons are visibly defined */
+}
+
+/* Outline button styling */
+.btn-outline {
+    background: transparent;
+    color: #ffffff; /* Assuming white text to match your navbar */
+    border-color: #4A90E2; /* A bright color for the border */
+}
+
+.btn-outline:hover, .btn-outline:focus {
+    background-color: #4A90E2; /* Same as border color for consistency */
+    color: #0F1020; /* A dark color for the text when hovered/focused */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+}
+
+/* Primary button styling */
+.btn-primary {
+    background-color: #4A90E2; /* A solid, bright color */
+    color: #ffffff; /* White text */
+    border-color: #4A90E2; /* Same as background for a solid look */
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #367ABD; /* A slightly darker shade when hovered/focused */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+}
+
+.info-form {
+    background-color: var(--color-background-secondary);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-elevation-1);
+}
+
+.info-form label {
+    display: block;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.info-form input,
+.info-form select {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    background-color: rgba(30, 40, 60, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    transition: var(--transition-smooth);
+}
+
+.info-form input:focus,
+.info-form select:focus {
+    outline: none;
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.info-form button {
+    cursor: pointer;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-accent-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: var(--transition-smooth);
+}
+
+.info-form button:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+}
+
+/* Styles for displaying student cards */
+.mentors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.mentor-card {
+    background-color: var(--color-background-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition-smooth);
+}
+
+.mentor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-elevation-2);
+}
+
+.mentor-info h2 {
+    color: var(--color-accent-primary);
+    margin-bottom: 0.5rem;
+}
+
+.mentor-info p {
+    color: var(--color-text-secondary);
+}

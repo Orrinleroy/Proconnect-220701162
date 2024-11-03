@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    :root {
+        --color-background-primary: #0F1020;
+        --color-background-secondary: #1A1E2E;
+        --color-text-primary: #E4E6EB;
+        --color-text-secondary: #A0A5B1;
+        --color-accent-primary: #4A90E2;
+        --color-accent-secondary: #6A5ACD;
+        --color-accent-hover: #7B68EE;
+        --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --shadow-elevation-1: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-elevation-2: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *,
+    *::before,
+    *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: var(--font-primary);
+        background-color: var(--color-background-primary);
+        color: var(--color-text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        width: 100%;
+    }
+
+    .project-header {
+        background-color: var(--color-background-secondary);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-elevation-1);
+    }
+
+    .project-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .project-meta {
+        display: flex;
+        gap: 2rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 1.5rem;
+    }
+
+    .progress-section {
+        background-color: rgba(74, 144, 226, 0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 12px;
+        background-color: var(--color-background-secondary);
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+
+    .progress-fill {
+        width: 75%;
+        height: 100%;
+        background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+        border-radius: 6px;
+        transition: var(--transition-smooth);
+    }
+
+    .main-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    .mentor-review {
+        background-color: var(--color-background-secondary);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .mentor-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .mentor-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        margin-right: 1rem;
+        background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .chat-section {
+        background-color: var(--color-background-secondary);
+        border-radius: 16px;
+        padding: 1.5rem;
+        height: calc(100vh - 200px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .message {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 12px;
+        max-width: 80%;
+    }
+
+    .message.received {
+        background-color: rgba(74, 144, 226, 0.1);
+        margin-right: auto;
+    }
+
+    .message.sent {
+        background-color: var(--color-accent-primary);
+        margin-left: auto;
+    }
+
+    .chat-input {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: rgba(30, 40, 60, 0.5);
+        border-radius: 12px;
+    }
+
+    .chat-input input {
+        flex-grow: 1;
+        padding: 0.875rem;
+        background-color: transparent;
+        border: none;
+        color: var(--color-text-primary);
+    }
+
+    .chat-input button {
+        padding: 0.875rem 1.5rem;
+        background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+        border: none;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+    }
+
+    .chat-input button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-elevation-1);
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="project-header">
+            <h1 class="project-title">AI-Powered Healthcare Analytics Dashboard</h1>
+            <div class="project-meta">
+                <span><i class="fas fa-calendar"></i> Started: Oct 15, 2024</span>
+                <span><i class="fas fa-clock"></i> Duration: 12 weeks</span>
+                <span><i class="fas fa-users"></i> Team Size: 4</span>
+            </div>
+            <div class="progress-section">
+                <h3>Project Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span>75% Complete - Sprint 3/4</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="mentor-review">
+                    <div class="mentor-header">
+                        <div class="mentor-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3>Dr. Sarah Chen</h3>
+                            <span>Lead Mentor - AI Healthcare Specialist</span>
+                        </div>
+                    </div>
+                    <p>The team has shown exceptional progress in implementing the core analytics engine. The visualization components are intuitive and the machine learning models are showing promising accuracy rates. Some attention is needed on data privacy compliance measures.</p>
+                    <div style="margin-top: 1rem;">
+                        <span style="color: #FFD700;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+                        <span style="color: var(--color-text-secondary);"> 4.0/5.0</span>
+                    </div>
+                </div>
+
+                <div class="mentor-review">
+                    <div class="mentor-header">
+                        <div class="mentor-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3>Prof. James Wilson</h3>
+                            <span>Technical Advisor - Data Security</span>
+                        </div>
+                    </div>
+                    <p>Outstanding implementation of security protocols. The team has successfully integrated HIPAA-compliant data handling mechanisms. Recommend focusing on API documentation for the next sprint.</p>
+                    <div style="margin-top: 1rem;">
+                        <span style="color: #FFD700;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i></span>
+                        <span style="color: var(--color-text-secondary);"> 4.5/5.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-section">
+                <h2 style="margin-bottom: 1rem;">Mentor Chat</h2>
+                <div class="chat-messages">
+                    <div class="message received">
+                        <strong>Dr. Sarah Chen:</strong><br>
+                        How's the implementation of the new machine learning model coming along?
+                    </div>
+                    <div class="message sent">
+                        <strong>You:</strong><br>
+                        We've completed the initial training phase. Accuracy is at 89% but we're still working on reducing false positives.
+                    </div>
+                    <div class="message received">
+                        <strong>Dr. Sarah Chen:</strong><br>
+                        That's promising! Have you considered implementing cross-validation to improve the model's robustness?
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Type your message...">
+                    <button><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

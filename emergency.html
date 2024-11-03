@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Response - ProConnect</title>
+    <style>
+        /* Base styles */
+        :root {
+            --color-background-primary: #0F1020;
+            --color-background-secondary: #1A1E2E;
+            --color-text-primary: #E4E6EB;
+            --color-text-secondary: #A0A5B1;
+            --color-accent-primary: #4A90E2;
+            --color-accent-secondary: #6A5ACD;
+            --color-accent-hover: #7B68EE;
+            --color-emergency: #ff3333;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Animated background */
+        body {
+            font-family: var(--font-primary);
+            background: linear-gradient(
+                45deg,
+                var(--color-background-primary),
+                var(--color-background-secondary),
+                #1E1E3F,
+                #2A2A4F
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background animations */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .background-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Content wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            background: rgba(26, 30, 46, 0.7);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .emergency-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .emergency-title {
+            color: var(--color-emergency);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .emergency-card {
+            background: rgba(26, 30, 46, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emergency-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .emergency-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .emergency-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .emergency-button {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emergency-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .emergency-button:active::after {
+            width: 200%;
+            height: 200%;
+        }
+
+        .button-medical {
+            background: linear-gradient(135deg, #ff3333, #ff5555);
+        }
+
+        .button-security {
+            background: linear-gradient(135deg, #ffa500, #ffb52e);
+        }
+
+        .button-fire {
+            background: linear-gradient(135deg, #ff4500, #ff6347);
+        }
+
+        .contact-list {
+            background: rgba(26, 30, 46, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            animation: slideUp 0.8s ease-out;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
+        }
+
+        .contact-button {
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .emergency-title {
+                font-size: 2rem;
+            }
+
+            .content-wrapper {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles -->
+    <div class="background-particles" id="particles"></div>
+
+    <div class="content-wrapper">
+        <div class="emergency-header">
+            <h1 class="emergency-title">Emergency Response Center</h1>
+            <p>Quick access to emergency services and contacts</p>
+        </div>
+
+        <div class="emergency-grid">
+            <div class="emergency-card">
+                <button class="emergency-button button-medical">
+                    Medical Emergency
+                </button>
+                <p style="margin-top: 1rem">For immediate medical assistance</p>
+            </div>
+
+            <div class="emergency-card">
+                <button class="emergency-button button-security">
+                    Security Alert
+                </button>
+                <p style="margin-top: 1rem">For security-related emergencies</p>
+            </div>
+
+            <div class="emergency-card">
+                <button class="emergency-button button-fire">
+                    Fire Emergency
+                </button>
+                <p style="margin-top: 1rem">For fire-related emergencies</p>
+            </div>
+        </div>
+
+        <div class="contact-list">
+            <h2 style="margin-bottom: 1rem">Emergency Contacts</h2>
+            
+            <div class="contact-item">
+                <div>
+                    <h3>Hostel Warden</h3>
+                    <p>Available 24/7</p>
+                </div>
+                <button class="contact-button">Call: Ext. 101</button>
+            </div>
+
+            <div class="contact-item">
+                <div>
+                    <h3>Campus Security</h3>
+                    <p>24/7 Security Service</p>
+                </div>
+                <button class="contact-button">Call: Ext. 102</button>
+            </div>
+
+            <div class="contact-item">
+                <div>
+                    <h3>Medical Center</h3>
+                    <p>Campus Medical Services</p>
+                </div>
+                <button class="contact-button">Call: Ext. 103</button>
+            </div>
+
+            <div class="contact-item">
+                <div>
+                    <h3>Fire Department</h3>
+                    <p>Local Fire Station</p>
+                </div>
+                <button class="contact-button">Call: 101</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+    </script>
+</body>
+</html>

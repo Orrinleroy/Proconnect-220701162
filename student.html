@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details Portal</title>
+    <style>
+    :root {
+        --color-background-primary: #0F1020;
+        --color-background-secondary: rgba(26, 30, 46, 0.95);
+        --color-text-primary: #E4E6EB;
+        --color-text-secondary: #A0A5B1;
+        --color-accent-primary: #4A90E2;
+        --color-accent-secondary: #6A5ACD;
+        --color-accent-hover: #7B68EE;
+        --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        --shadow-elevation-1: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-elevation-2: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *,
+    *::before,
+    *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: var(--font-primary);
+        color: var(--color-text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Background Video and Overlay */
+    .background-video {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -2;
+        object-fit: cover;
+    }
+
+    .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            135deg,
+            rgba(15, 16, 32, 0.97),
+            rgba(26, 30, 46, 0.95)
+        );
+        z-index: -1;
+    }
+
+    /* Animated Background Elements */
+    .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .floating-particle {
+        position: absolute;
+        background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary));
+        border-radius: 50%;
+        filter: blur(4px);
+        animation: float 20s infinite linear;
+        opacity: 0.15;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) translateX(-20px) rotate(0deg);
+        }
+        100% {
+            transform: translateY(-100px) translateX(20px) rotate(360deg);
+        }
+    }
+
+    .glow {
+        position: absolute;
+        background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, rgba(74, 144, 226, 0) 70%);
+        border-radius: 50%;
+        animation: glow 8s infinite ease-in-out;
+    }
+
+    @keyframes glow {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.75rem;
+        animation: titleGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes titleGlow {
+        0%, 100% { text-shadow: 0 0 20px rgba(74, 144, 226, 0.3); }
+        50% { text-shadow: 0 0 30px rgba(74, 144, 226, 0.5); }
+    }
+
+    .details-form {
+        background-color: var(--color-background-secondary);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        animation: formAppear 1s ease-out;
+    }
+
+    @keyframes formAppear {
+        from { 
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+        animation: sectionSlide 0.5s ease-out backwards;
+    }
+
+    @keyframes sectionSlide {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .form-section h2 {
+        color: var(--color-accent-primary);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        position: relative;
+    }
+
+    .form-section h2::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+        animation: widthAnimate 3s infinite ease-in-out;
+    }
+
+    @keyframes widthAnimate {
+        0%, 100% { width: 50px; }
+        50% { width: 100px; }
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--color-text-secondary);
+        font-weight: 500;
+        transition: var(--transition-smooth);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.875rem 1.25rem;
+        background-color: rgba(30, 40, 60, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--color-text-primary);
+        font-weight: 300;
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(4px);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-accent-primary);
+        box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .button {
+        padding: 0.875rem 2rem;
+        background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+        );
+        transition: 0.5s;
+    }
+
+    .button:hover::before {
+        left: 100%;
+    }
+
+    .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(74, 144, 226, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .container {
+            padding: 1rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop>
+        <source src="write.mp4" type="video/mp4">
+    </video>
+    
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+    
+    <!-- Animated Background -->
+    <div class="animated-bg" id="animatedBg"></div>
+
+    <div class="container">
+        <header>
+            <h1>Student Details Portal</h1>
+        </header>
+
+        <form class="details-form" id="studentDetailsForm">
+            <!-- Form content remains the same -->
+            <div class="form-section">
+                <h2>Personal Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" name="studentId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <select id="department" name="department" required>
+                            <option value="">Select Department</option>
+                            <option value="cse">Computer Science</option>
+                            <option value="ece">Electronics</option>
+                            <option value="mech">Mechanical</option>
+                            <option value="civil">Civil</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Student Email ID</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Accommodation Details</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="roomNumber">Room Number</label>
+                        <input type="text" id="roomNumber" name="roomNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Room Type</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="ac" name="roomType" value="ac">
+                                <label for="ac">AC</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="nonAc" name="roomType" value="nonAc">
+                                <label for="nonAc">Non-AC</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roommates">Number of Roommates</label>
+                        <select id="roommates" name="roommates" required>
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="block">Hostel Block</label>
+                        <input type="text" id="block" name="block" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Contact Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="phone">Student Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentPhone">Parent's Phone Number</label>
+                        <input type="tel" id="parentPhone" name="parentPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentEmail">Parent's Email</label>
+                        <input type="email" id="parentEmail" name="parentEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Permanent Address</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="button">Save Details</button>
+                <button type="reset" class="button">Reset Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+                // Create glowing orbs
+                for (let i = 0; i < glowCount; i++) {
+            const glow = document.createElement('div');
+            glow.className = 'glow';
+            glow.style.width = Math.random() * 100 + 50 + "px";
+            glow.style.height = glow.style.width;
+            glow.style.left = Math.random() * 100 + "%";
+            glow.style.animationDuration = Math.random() * 10 + 5 + "s";
+            glow.style.animationDelay = "-" + Math.random() * 10 + "s";
+            bg.appendChild(glow);
+        }
+    
+
+    // Initial creation of particles and glows
+    createParticles();
+
+    // Form submission event
+    document.getElementById('studentDetailsForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission action
+        saveStudentDetails();
+    });
+
+    function saveStudentDetails() {
+        // Here you would collect the data from the form
+        // Example: let name = document.getElementById('name').value;
+        // You could send this data to a server using fetch API or another method
+        console.log("Form data saved (simulation)");
+        alert("Student details saved!");
+    }
+
+    function resetForm() {
+        document.getElementById('studentDetailsForm').reset();
+        console.log("Form has been reset");
+    }
+   </script>
+</body>
+</html>

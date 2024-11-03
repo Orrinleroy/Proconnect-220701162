@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application - ProConnect</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-background-primary: #0F1020;
+            --color-background-secondary: #1A1E2E;
+            --color-text-primary: #E4E6EB;
+            --color-text-secondary: #A0A5B1;
+            --color-accent-primary: #4A90E2;
+            --color-accent-secondary: #6A5ACD;
+            --color-accent-hover: #7B68EE;
+            --shadow-elevation-1: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-elevation-2: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+        }
+
+        .leave-form {
+            background-color: var(--color-background-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-elevation-1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            background-color: rgba(30, 40, 60, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-accent-primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background: linear-gradient(to right, var(--color-accent-primary), var(--color-accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-elevation-2);
+        }
+
+        .status-card {
+            background-color: var(--color-background-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .required-field {
+            color: #ff4d4d;
+            margin-left: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Leave Application</h1>
+        </header>
+
+        <form class="leave-form" id="leaveForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Student ID<span class="required-field">*</span></label>
+                    <input type="text" class="form-control" required placeholder="Enter your student ID">
+                </div>
+                <div class="form-group">
+                    <label>Full Name<span class="required-field">*</span></label>
+                    <input type="text" class="form-control" required placeholder="Enter your full name">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>From Date<span class="required-field">*</span></label>
+                    <input type="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>To Date<span class="required-field">*</span></label>
+                    <input type="date" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Leave Type<span class="required-field">*</span></label>
+                <select class="form-control" required>
+                    <option value="">Select leave type</option>
+                    <option value="medical">Medical Leave</option>
+                    <option value="personal">Personal Leave</option>
+                    <option value="emergency">Emergency Leave</option>
+                    <option value="academic">Academic Leave</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Reason for Leave<span class="required-field">*</span></label>
+                <textarea class="form-control" required placeholder="Please provide detailed reason for your leave request"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Contact During Leave<span class="required-field">*</span></label>
+                <input type="tel" class="form-control" required placeholder="Enter contact number">
+            </div>
+
+            <button type="submit" class="submit-button">Submit Leave Application</button>
+        </form>
+
+        <div class="status-card">
+            <div class="status-header">
+                <h3>Recent Application Status</h3>
+                <span class="status-badge status-pending">Pending</span>
+            </div>
+            <div class="status-details">
+                <p>Application Date: <span id="applicationDate">2024-11-01</span></p>
+                <p>Leave Duration: <span id="leaveDuration">3 days</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('leaveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically handle the form submission
+            alert('Leave application submitted successfully!');
+        });
+
+        // Set minimum date as today for the date inputs
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        const today = new Date().toISOString().split('T')[0];
+        dateInputs.forEach(input => {
+            input.min = today;
+        });
+    </script>
+</body>
+</html>
