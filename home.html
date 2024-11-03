@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProConnect - Smart Hostel Management</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4299e1, #805ad5);
+            --text-gradient: linear-gradient(135deg, #63b3ed, #9f7aea);
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .moving-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.05), rgba(128, 90, 213, 0.05));
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(100px, 100px); }
+            50% { transform: translate(200px, 0); }
+            75% { transform: translate(100px, -100px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #e2e8f0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-buttons button {
+            padding: 0.5rem 1.5rem;
+            margin-left: 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .nav-buttons button:first-child {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-buttons button:first-child:hover {
+            border-color: #9f7aea;
+            color: #9f7aea;
+        }
+
+        .nav-buttons button:last-child {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .nav-buttons button:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-image {
+            flex: 1;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(128, 90, 213, 0.2);
+        }
+
+        .get-started-btn {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .get-started-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.3);
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(128, 90, 213, 0.3);
+        }
+
+        .feature-card h3 {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .facilities {
+            padding: 4rem 2rem;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .facilities h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .facility-card {
+            padding: 1.5rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .facility-card:hover {
+            transform: scale(1.05);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(128, 90, 213, 0.3);
+        }
+
+        .facility-card h3 {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .facility-card p {
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="moving-circle" style="width: 300px; height: 300px; top: 20%; left: 10%;"></div>
+        <div class="moving-circle" style="width: 400px; height: 400px; top: 50%; left: 80%;"></div>
+        <div class="moving-circle" style="width: 200px; height: 200px; top: 70%; left: 30%;"></div>
+    </div>
+
+    <nav class="nav-content">
+        <div class="logo">ProConnect</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="nav-buttons">
+            <button>Login</button>
+            <button>Register</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text" data-aos="fade-right">
+                <h1>Smart Hostel Management Made Simple</h1>
+                <p>Transform your hostel operations with our comprehensive management solution. Streamline attendance, manage complaints, and enhance student experience all in one place.</p>
+                <button class="get-started-btn">Get Started</button>
+            </div>
+            <div class="hero-image" data-aos="fade-left">
+                <img src="rec1.jpeg" alt="ProConnect Dashboard">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2 data-aos="fade-up">Powerful Features</h2>
+        <div class="features-grid">
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon">A</div>
+                <h3>Attendance Management</h3>
+                <p>Effortlessly track student attendance using NFC technology. Get real-time updates and automated reports.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon">C</div>
+                <h3>Complaint Resolution</h3>
+                <p>Quick and efficient complaint management system with automated tracking and resolution updates.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon">L</div>
+                <h3>Leave Management</h3>
+                <p>Streamlined process for managing student leave applications with digital approval workflow.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="facilities">
+        <h2 data-aos="fade-up">Hostel Facilities</h2>
+        <div class="facilities-grid">
+            <div class="facility-card" data-aos="fade-up" data-aos-delay="100">
+                <h3>24/7 Security</h3>
+                <p>Round-the-clock security with CCTV surveillance and trained guards</p>
+            </div>
+            <div class="facility-card" data-aos="fade-up" data-aos-delay="200">
+                <h3>High-Speed WiFi</h3>
+                <p>Unlimited high-speed internet access throughout the premises</p>
+            </div>
+            <div class="facility-card" data-aos="fade-up" data-aos-delay="300">
+                <h3>Modern Dining</h3>
+                <p>Spacious dining hall with nutritious meal options</p>
+            </div>
+            <div class="facility-card" data-aos="fade-up" data-aos-delay="400">
+                <h3>Recreation Room</h3>
+                <p>Well-equipped recreation room with indoor games and TV</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const circles = document.querySelectorAll('.moving-circle');
+            circles.forEach((circle, index) => {
+                const speed = (index + 1) * 0.03;
+                const x = (e.clientX * speed);
+                const y = (e.clientY * speed);
+                circle.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
