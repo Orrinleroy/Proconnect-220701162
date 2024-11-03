@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProConnect - REC Hostel Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --primary-color: #2a2d3e;
+            --secondary-color: #1f2235;
+            --accent-color: #6c63ff;
+            --text-color: #ffffff;
+            --hover-color: #8278ff;
+            --info-color: #4caf50;
+            --warning-color: #ff9800;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .datetime-display {
+            background-color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin-right: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+
+        .dashboard-card {
+            background-color: var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideIn 0.5s ease forwards;
+        }
+
+ 
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .dashboard-card:nth-child(1) { animation-delay: 0.2s; }
+        .dashboard-card:nth-child(2) { animation-delay: 0.4s; }
+        .dashboard-card:nth-child(3) { animation-delay: 0.6s; }
+        .dashboard-card:nth-child(4) { animation-delay: 0.8s; }
+        .dashboard-card:nth-child(5) { animation-delay: 1s; }
+        .dashboard-card:nth-child(6) { animation-delay: 1.2s; }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+
+        .emergency {
+            background-color: #ff6b6b;
+        }
+
+        .emergency:hover {
+            background-color: #ff5252;
+        }
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-buttons {
+                flex-wrap: wrap;
+            }
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            .welcome-message {
+                font-size: 1rem;
+            }
+            .dashboard-card {
+                padding: 1rem;
+            }
+            .card-title {
+                font-size: 1rem;
+            }
+            .card-description {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="rec.jpeg" alt="REC Logo">
+            <h1>ProConnect</h1>
+        </div>
+        <div class="nav-buttons">
+            <div class="datetime-display">
+                <i class="fas fa-calendar-alt"></i>
+                <span id="datetime">Loading...</span>
+            </div>
+            <div class="welcome-message" id="welcome-message">Welcome, <span id="username">User</span>!</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <a href="attendance.html" style="text-decoration: none; color: inherit;">
+                <i class="fas fa-id-card card-icon"></i>
+                <h3 class="card-title">Attendance Register</h3>
+                <p class="card-description">Mark attendance using NFC</p>
+            </a>    
+            </div>
+            <div class="dashboard-card">
+                <a href="student.html" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-user-graduate card-icon"></i>
+                    <h3 class="card-title">Student Details</h3>
+                    <p class="card-description">View and manage student information</p>
+                </a>
+            </div>
+            <div class="dashboard-card">
+                <a href="complaint.html" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-comment-dots card-icon"></i>
+                    <h3 class="card-title">Complaints</h3>
+                    <p class="card-description">Handle student complaints and issues</p>
+                </a>
+            </div>
+            <div class="dashboard-card emergency">
+                <a href="emergency.html" style="text-decoration: none; color: inherit;">
+                <i class="fas fa-ambulance card-icon"></i>
+                <h3 class="card-title">Emergency</h3>
+                <p class="card-description">Quick response to critical situations</p>
+                </a>
+            </div>
+            <div class="dashboard-card">
+                <a href="leave.html" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-calendar-check card-icon"></i>
+                    <h3 class="card-title">Leave Applications</h3>
+                    <p class="card-description">Process student leave requests</p>
+                </a>
+            </div>
+            <div class="dashboard-card">
+                <a href="bugs.html" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-bug card-icon"></i>
+                    <h3 class="card-title">Report Bugs</h3>
+                    <p class="card-description">Report issues or contact support</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const username = "John Doe";
+        document.getElementById('username').textContent = username;
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
