@@ -239,7 +239,7 @@
             <img src="rec.jpeg" alt="REC Logo">
             <h1>ProConnect</h1>
         </div>
-        <div class="nav-buttons">
+        <div class="nav-buttons" id="nav-buttons">
             <div class="datetime-display">
                 <i class="fas fa-calendar-alt"></i>
                 <span id="datetime">Loading...</span>
@@ -247,14 +247,15 @@
             <div>
                 <span id="dateTime">Loading...</span>
             </div>
-            <a href="registration.html"> 
+            <span id="username-display" style="margin-right: 1rem; font-weight: bold;"></span>
+            <a href="registration.html" id="register-button"> 
                 <button class="btn btn-outline">Register</button>
             </a>
-            <a href="login.html"> 
+            <a href="login.html" id="login-button"> 
                 <button class="btn btn-primary">Login</button>
             </a>
-            </div>
-            
+            <button class="btn btn-primary" id="logout-button" style="display: none;" onclick="logout()">Logout</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -328,6 +329,8 @@
         </div>
     </div>
 
+    <!-- (Rest of the body content remains the same) -->
+
     <script>
         function updateDateTime() {
             const now = new Date();
@@ -343,8 +346,28 @@
             document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', options);
         }
         
+        function checkUserLogin() {
+            const username = localStorage.getItem('username');
+            if (username) {
+                document.getElementById('username-display').textContent = `Welcome, ${username}`;
+                document.getElementById('register-button').style.display = 'none';
+                document.getElementById('login-button').style.display = 'none';
+                document.getElementById('logout-button').style.display = 'inline-block';
+            } else {
+                document.getElementById('register-button').style.display = 'inline-block';
+                document.getElementById('login-button').style.display = 'inline-block';
+                document.getElementById('logout-button').style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('username');
+            location.reload(); // Reload the page to update the nav buttons
+        }
+
         updateDateTime();
         setInterval(updateDateTime, 1000);
+        checkUserLogin(); // Call the function on page load
     </script>
 </body>
 </html>

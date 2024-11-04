@@ -38,7 +38,6 @@
         overflow-x: hidden;
     }
 
-    /* Background Video and Overlay */
     .background-video {
         position: fixed;
         right: 0;
@@ -65,7 +64,6 @@
         z-index: -1;
     }
 
-    /* Animated Background Elements */
     .animated-bg {
         position: fixed;
         top: 0;
@@ -312,15 +310,12 @@
     </style>
 </head>
 <body>
-    <!-- Background Video -->
     <video class="background-video" autoplay muted loop>
         <source src="write.mp4" type="video/mp4">
     </video>
     
-    <!-- Background Overlay -->
     <div class="background-overlay"></div>
     
-    <!-- Animated Background -->
     <div class="animated-bg" id="animatedBg"></div>
 
     <div class="container">
@@ -329,7 +324,6 @@
         </header>
 
         <form class="details-form" id="studentDetailsForm">
-            <!-- Form content remains the same -->
             <div class="form-section">
                 <h2>Personal Information</h2>
                 <div class="form-grid">
@@ -424,8 +418,7 @@
     </div>
 
     <script>
-                // Create glowing orbs
-                for (let i = 0; i < glowCount; i++) {
+        for (let i = 0; i < glowCount; i++) {
             const glow = document.createElement('div');
             glow.className = 'glow';
             glow.style.width = Math.random() * 100 + 50 + "px";
@@ -437,19 +430,14 @@
         }
     
 
-    // Initial creation of particles and glows
     createParticles();
 
-    // Form submission event
     document.getElementById('studentDetailsForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission action
+        event.preventDefault(); 
         saveStudentDetails();
     });
 
     function saveStudentDetails() {
-        // Here you would collect the data from the form
-        // Example: let name = document.getElementById('name').value;
-        // You could send this data to a server using fetch API or another method
         console.log("Form data saved (simulation)");
         alert("Student details saved!");
     }
