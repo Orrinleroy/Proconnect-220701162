@@ -387,69 +387,39 @@
     </div>
 
     <script>
-        let selectedRole = null;
-
-        function selectRole(button) {
-            const buttons = document.querySelectorAll('.role-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedRole = button.getAttribute('data-role');
+        let currentRole = 'student';
+    
+        function switchRole(role) {
+            currentRole = role;
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+    
+            const usernamePlaceholder = currentRole === 'student' 
+                ? 'Registration Number' 
+                : 'Staff ID';
+            document.getElementById('username').placeholder = usernamePlaceholder;
         }
-
-        async function handleLogin(event) {
+    
+        function handleLogin(event) {
             event.preventDefault();
-
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
-            if (!selectedRole) {
-                alert('Please select a role');
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert(data.message);
-                    // Store the username in localStorage
-                    localStorage.setItem('username', username);
-
-                    // Redirect to main.html on successful login
-                    window.location.href = 'main.html';
-                } else {
-                    alert(data.message);
+            const error = document.getElementById('loginError');
+    
+            if (username && password) {
+                // Redirect based on the role
+                if (currentRole === 'student') {
+                    window.location.href = 'student-dashboard.html';  
+                } else if (currentRole === 'warden') {
+                    window.location.href = 'warden-dashboard.html';
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while logging in');
+            } else {
+                error.textContent = 'Invalid credentials. Please try again.';
+                error.style.display = 'block';
             }
-        }
-
-        // Check if a user is already logged in
-        window.onload = function() {
-            const storedUsername = localStorage.getItem('username');
-            if (storedUsername) {
-                document.getElementById('user-info').innerHTML = `
-                    <p>Welcome, ${storedUsername}</p>
-                    <button onclick="logout()">Logout</button>
-                `;
-                document.querySelector('.login-container').style.display = 'none';
-            }
-        };
-
-        function logout() {
-            localStorage.removeItem('username');
-            alert('You have been logged out.');
-            window.location.href = 'main.html'; // Redirect to the login page
+            return false;
         }
     </script>
 </body>
